@@ -120,6 +120,7 @@ if __name__ == "__main__":
 
 ```
 ### Output:
+
 #### AND Operation:
 ![image](https://github.com/user-attachments/assets/da6b388f-1acd-450d-bd41-ee31a165904c)
 
