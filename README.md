@@ -1,5 +1,5 @@
 ### EX5 Information Retrieval Using Boolean Model in Python
-### DATE: 
+### DATE: 21.04.2025
 ### AIM: To implement Information Retrieval Using Boolean Model in Python.
 ### Description:
 <div align = "justify">
@@ -23,12 +23,13 @@ The Boolean model in Information Retrieval (IR) is a fundamental model used for 
 
 ### Program:
 
-    import numpy as np
-    import pandas as pd
-    class BooleanRetrieval:
-        def __init__(self):
-            self.index = {}
-            self.documents_matrix = None
+import numpy as np
+import pandas as pd
+
+class BooleanRetrieval:
+    def __init__(self):
+        self.index = {}
+        self.documents_matrix = None
 
     def index_document(self, doc_id, text):
         terms = text.lower().split()
@@ -62,7 +63,36 @@ The Boolean model in Information Retrieval (IR) is a fundamental model used for 
         print(list(self.index.keys()))
 
     def boolean_search(self, query):
-        # TYPE YOUR CODE HERE
+        tokens = query.upper().split()
+        result = set()
+
+        i = 0
+        while i < len(tokens):
+            token = tokens[i]
+
+            if token not in ["AND", "OR", "NOT"]:
+                current_set = self.index.get(token.lower(), set())
+
+                if i == 0:
+                    result = current_set
+                else:
+                    operator = tokens[i - 1]
+                    if operator == "AND":
+                        result = result & current_set
+                    elif operator == "OR":
+                        result = result | current_set
+                i += 1
+
+            elif token == "NOT":
+                next_token = tokens[i + 1]
+                not_set = self.index.get(next_token.lower(), set())
+                result = result - not_set
+                i += 2
+            else:
+                i += 1
+
+        return result
+
 
 if __name__ == "__main__":
     indexer = BooleanRetrieval()
@@ -80,8 +110,9 @@ if __name__ == "__main__":
     indexer.print_documents_matrix_table()
     indexer.print_all_terms()
 
-    query = input("Enter your boolean query: ")
+    query = input("Enter your boolean query (use AND, OR, NOT): ")
     results = indexer.boolean_search(query)
+
     if results:
         print(f"Results for '{query}': {results}")
     else:
@@ -89,5 +120,7 @@ if __name__ == "__main__":
 
 
 ### Output:
+
+![image](https://github.com/user-attachments/assets/da6b388f-1acd-450d-bd41-ee31a165904c)
 
 ### Result:
